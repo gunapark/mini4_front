@@ -6,6 +6,8 @@ import ResponsiveAppBar from "./mui/toolbar.jsx";
 import BookList from "./mui/BookList.jsx";
 import Regist from "./mui/Regist.jsx";
 import MainPage from "./pages/MainPage.jsx";  // 필요 없다면 지워도 됨
+import Edit from "./mui/Edit.jsx";
+import Detail from "./mui/Detail.jsx";
 
 import { Routes, Route } from "react-router-dom";
 
@@ -28,6 +30,9 @@ function App() {
 
                 {/* 도서 수정 페이지 */}
                 <Route path="/edit/:id" element={<Edit books mode="put" />} />
+
+                {/* 도서 세부 정보 페이지 */}
+                <Route path="/details" element={<Detail/>} />
             </Routes>
         </>
     );
