@@ -24,7 +24,7 @@ function App() {
                 <Route path="/books" element={<BookList posts={mockData} />} />
 
                 {/* 새 도서 등록 페이지 */}
-                <Route path="/register" element={<Regist />} />
+                <Route path="/register" element={<Regist/>} />
 
                 {/* 도서 수정 페이지 */}
             </Routes>

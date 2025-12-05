@@ -7,20 +7,26 @@ import TextareaAutosize from '@mui/material/TextareaAutosize';
 
 import MenuBookIcon from '@mui/icons-material/MenuBook';
 import BookIcon from '@mui/icons-material/Book';
-import HttpIcon from '@mui/icons-material/Http';
+import CreateIcon from '@mui/icons-material/Create';
 import BorderColorIcon from '@mui/icons-material/BorderColor';
 
 import ButtonGroup from '@mui/material/ButtonGroup';
 import Button from '@mui/material/Button';
 import SaveIcon from '@mui/icons-material/Save';
+import {LoadingButton} from "@mui/lab"
 import {useState} from "react";
+//import axios from "axios";
+
 
 export default function Regist() {
     const [form, setForm] = useState({
         title: '',
         author: '',
-        description: '',
+        content: '',
     });
+    const [saving, setSaving] = useState(false);
+
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setForm((prev) => ({
@@ -29,7 +35,62 @@ export default function Regist() {
         }));
     };
 
-    return (
+    //저장 버튼 누르면 실행
+    const handleSave = async () => {
+        // 간단한 유효성 검사
+        if (!form.title.trim() || !form.author.trim()) {
+            alert("제목과 저자는 필수입니다.");
+            return;
+        }
+
+        try {
+            setSaving(true);
+
+            await new Promise((resolve) => setTimeout(resolve, 4000));
+            const isSuccess = true; //false
+            if (isSuccess) {
+                alert("도서가 성공적으로 저장되었습니다!");
+
+                setForm({
+                    title: "",
+                    author: "",
+                    content: "",
+                });
+            } else {
+                throw new Error();
+            }
+
+            // const res = await axios.post("http://localhost:8080/api/books", {
+            //     title: form.title,
+            //     author: form.author,
+            //     content: form.content,
+            // });
+            //
+            // // 서버에서 status_code 200 아니면 전부 에러 던짐
+            // if (res.data?.status_code === 200) {
+            //     alert("도서가 성공적으로 저장되었습니다!");
+            // } else {
+            //     throw new Error("저장 실패!");
+            // }
+            // // 저장 후 폼 초기화
+            //
+            // setForm({
+            //     title: "",
+            //     author: "",
+            //     content: "",
+            // });
+        } catch (error) {
+            console.error(error);
+            const msg =
+                error.response?.data?.message ||
+                "저장 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.";
+            alert(msg);
+        } finally {
+            setSaving(false);
+        }
+    };
+
+            return (
         <>
             <Box sx={{position: 'static', textAlign: 'center', mb: 7}}>
                 <Typography variant="h3" component="h3">
@@ -55,13 +116,17 @@ export default function Regist() {
 
             <Box sx={{position: 'static', textAlign: 'left', mb: 2}}>
                 <Typography variant="h5" component="h5">
-                    <HttpIcon sx={{ fontSize: '3rem', mb: -2, marginRight: '1rem' }} />
-                    ||  표지 이미지 URL
+                    <CreateIcon sx={{ fontSize: '3rem', mb: -2, marginRight: '1rem' }} />
+                    ||  책 저자
                 </Typography>
             </Box>
 
             <Box sx={{ width: 800, maxWidth: '100%', mb: 5}}>
-                <TextField fullWidth label="URl을 입력하세요" id="url" />
+                <TextField fullWidth label="저자을 입력하세요"
+                           name="author"
+                           value={form.author}
+                           onChange={handleChange}
+                />
             </Box>
 
             <Box sx={{position: 'static', textAlign: 'left'}}>
@@ -74,6 +139,9 @@ export default function Regist() {
             <Box sx={{position: 'static', textAlign: 'center', width: 800, maxWidth: '100%', mb: 5, mt: 3}}>
                 <TextareaAutosize
                     aria-label="minimum height"
+                    name="content"
+                    value={form.content}
+                    onChange={handleChange}
                     minRows={10}
                     placeholder="내용을 입력하세요"
                     style={{
@@ -89,11 +157,31 @@ export default function Regist() {
 
             <Box display="flex" justifyContent="flex-end">
                 <ButtonGroup aria-label="Loading button group">
-                    <Button variant="contained">저장</Button>
-                    <Button variant="outlined">취소</Button>
-                    <Button loading loadingPosition="start" startIcon={<SaveIcon />}>
-                        저장중인 모습
+                    {/* 필요하면 취소/초기화 버튼 */}
+                    <Button
+                        variant="outlined"
+                        disabled={saving}
+                        onClick={() =>
+                            setForm({
+                                title: "",
+                                author: "",
+                                content: "",
+                            })
+                        }
+                    >
+                        초기화
                     </Button>
+
+                    {/* 저장 + 로딩 표시 버튼 */}
+                    <LoadingButton
+                        variant="contained"
+                        loading={saving}
+                        loadingPosition="start"
+                        startIcon={<SaveIcon />}
+                        onClick={handleSave}
+                    >
+                        {saving ? "저장 중..." : "저장"}
+                    </LoadingButton>
                 </ButtonGroup>
             </Box>
         </>
