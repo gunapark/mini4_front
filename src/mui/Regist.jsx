@@ -122,7 +122,7 @@ export default function Regist() {
             </Box>
 
             <Box sx={{ width: 800, maxWidth: '100%', mb: 5}}>
-                <TextField fullWidth label="저자을 입력하세요"
+                <TextField fullWidth label="저자를 입력하세요"
                            name="author"
                            value={form.author}
                            onChange={handleChange}
