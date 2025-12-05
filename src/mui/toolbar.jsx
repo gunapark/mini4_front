@@ -39,9 +39,10 @@ function ResponsiveAppBar() {
     // };
 
     return (
-        <AppBar position="fixed">
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
+        <AppBar position="fixed"  sx={{ backgroundColor: "#e17b90" }}>
+
+            <Container maxWidth="xl" >
+                <Toolbar disableGutters >
                     <BookIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 2 }} />
                     <Typography
                         variant="h6"
@@ -52,10 +53,9 @@ function ResponsiveAppBar() {
                         sx={{
                             mr: 50,
                             display: { xs: 'none', md: 'flex' },
-                            fontFamily: 'monospace',
                             fontWeight: 500,
                             letterSpacing: '.3rem',
-                            color: 'inherit',
+                            color: 'white',
                             textDecoration: 'none',
                             '&:hover': {
                                 color: 'goldenrod',
