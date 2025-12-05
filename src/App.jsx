@@ -13,7 +13,7 @@ function App() {
     return (
         <>
             {/* 상단 네비게이션 바 */}
-            <ResponsiveAppBar />
+            <ResponsiveAppBar/>
 
             {/* URL에 따라 여기 내용이 바뀜 */}
             <Routes>
